@@ -8,7 +8,6 @@ const puppeteer = require('puppeteer');
         timeout: 3000000
     });
 
-    await(2000);
     let aTag = await page.evaluate(() => {
         let as = [...document.querySelectorAll('#comiclistn dd a')].filter(v => v.innerHTML.indexOf('食戟之灵') !== -1);
         return as.map((a) => {
@@ -29,23 +28,26 @@ const puppeteer = require('puppeteer');
         waitUntil: 'domcontentloaded',
         timeout: 3000000
     });
-    await(2000);
-    let totalNum = 0;;
+    //let totalNum = 0;;
     let currentNum = 0;
-    await page.evaluate(() => {
+    let totalNum = await page.evaluate(() => {
         let num = document.querySelectorAll('table tr td')[1].innerText.match(/共(\d+)页/)[1];
-        totalNum = parseInt(num, 10) | 0;
+        console.log(num);
+        return num;
+        //totalNum = parseInt(num, 10) | 0;
     });
+    console.log(totalNum);
 
     for (let i = currentNum + 1; i < totalNum; i++) {
         const link = `${base}${i}.htm`;
+        console.log(link);
         await page.goto(link, {
             waitUntil: 'domcontentloaded',
             timeout: 3000000
         });
         await(2000);
         const img = await page.evaluate(() => {
-            return document.querySelector('img');
+            return document.querySelector('img').src;
         });
         imgs.push(img);
     }

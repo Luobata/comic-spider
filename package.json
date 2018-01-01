@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Luobata/comic-spider/issues"
   },
-  "homepage": "https://github.com/Luobata/comic-spider#readme"
+  "homepage": "https://github.com/Luobata/comic-spider#readme",
+  "dependencies": {
+    "puppeteer": "^0.13.0"
+  }
 }
