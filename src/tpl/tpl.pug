@@ -6,3 +6,5 @@ html
             style(src="./style.css")
     body
         div.comic-wrap
+            - for(var i = 0; i < #{data}.length; i++)
+            img(src="#{data}[i]")
