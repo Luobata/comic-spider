@@ -1,10 +1,9 @@
 // comic tpl
-doctype html
 html
     head
-        block head
-            style(src="./style.css")
+        style(src="../tpl/style.css")
     body
         div.comic-wrap
-            - for(var i = 0; i < #{data}.length; i++)
-            img(src="#{data}[i]")
+            - for(var i = 0; i < data.length; i++)
+                div
+                    img(src=`${data[i]}`)

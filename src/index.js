@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const pug = require('pug');
+const fs = require('fs');
 
 (async () => {
     const browser = await puppeteer.launch();
@@ -52,6 +53,13 @@ const pug = require('pug');
         });
         imgs.push(img);
     }
+    const compiled = pug.compileFile('src/tpl/tpl.pug', {
+        pretty: true,
+    });
+    const re = compiled({
+        data: imgs,
+    });
+    fs.writeFileSync(`src/data/${name}.html`, re);
     console.log(imgs);
     //}
 
