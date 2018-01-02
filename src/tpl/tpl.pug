@@ -1,9 +1,9 @@
 // comic tpl
 html
     head
-        style(src="../tpl/style.css")
+        link(href="../tpl/style.css" rel="stylesheet")
     body
         div.comic-wrap
             - for(var i = 0; i < data.length; i++)
-                div
+                div.comic-con
                     img(src=`${data[i]}`)

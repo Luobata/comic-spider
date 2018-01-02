@@ -1,4 +1,9 @@
-* {
+body, html {
     margin: 0;
     padding: 0;
+}
+.comic-wrap .comic-con img {
+    display: block;
+    margin: 0 auto;
+    width: 900px;
 }
