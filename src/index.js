@@ -51,7 +51,7 @@ const util = require('./util');
             });
             console.log(name, totalNum);
 
-            for (let i = currentNum + 1; i < totalNum; i++) {
+            for (let i = currentNum + 1; i <= totalNum; i++) {
                 const link = `${base}${i}.htm`;
                 //console.log(link);
                 await page.goto(link, {
