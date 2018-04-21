@@ -22,7 +22,7 @@ const util = require('../util');
                 'Parent Directory',
             ];
             let as = [...document.querySelectorAll('a')].filter(
-                v => whitelist.indexOf(v.text) !== -1,
+                v => whitelist.indexOf(v.text) === -1,
             );
             return as.map(a => {
                 return {
@@ -43,7 +43,6 @@ const util = require('../util');
     async function spider(url, base) {
         // (async () => {
         const aTag = await walk(url);
-        console.log(aTag);
         for (let j = 0; j < aTag.length; j++) {
             const i = aTag[j];
             const name = i.text;
@@ -51,10 +50,11 @@ const util = require('../util');
             const href = i.href;
             const fileAddress = `${base}/${name}`;
             try {
-                console.log(name);
-                const fileStat = await util.stat(fileAddress);
+                console.log(name, fileAddress);
+                let fileStat;
+                fileStat = await util.stat(fileAddress);
                 // 存在跳过
-                if (fileStat && fileStat.isFile()) {
+                if (fileStat && (fileStat.isFile() || fileStat.isDirectory())) {
                     continue;
                 }
                 if (type === 'dir') {
