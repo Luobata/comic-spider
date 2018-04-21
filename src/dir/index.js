@@ -15,12 +15,13 @@ const util = require('../util');
     ];
     const base = `src/dir/data`;
     const walk = async url => {
-        async () => {
+        return (async () => {
+            console.log(url);
             await page.goto(url, {
                 waitUntil: 'domcontentloaded',
                 timeout: 3000000,
             });
-            await page.evaluate(() => {
+            const tags = await page.evaluate(() => {
                 let as = [...document.querySelectorAll('a')].filter(
                     v => whitelist.indexOf(v.text) !== -1,
                 );
@@ -33,16 +34,17 @@ const util = require('../util');
                     };
                 });
             });
-        };
+            return tags;
+        })();
     };
     const download = async url => {
-        async () => {
+        (async () => {
             console.log(url);
-        };
+        })();
     };
 
-    const spider = (url, base) => {
-        async () => {
+    const spider = async (url, base) => {
+        (async () => {
             const aTag = walk(url);
             for (let j = 0; j < aTag.length; j++) {
                 const i = aTag[j];
@@ -75,8 +77,9 @@ const util = require('../util');
                     //fs.unlinkSync(htmlDir, re);
                 }
             }
-        };
+        })();
     };
+    await spider(url, base);
 
     await browser.close();
 })();
