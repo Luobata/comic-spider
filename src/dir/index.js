@@ -15,12 +15,14 @@ const util = require('../util');
     ];
     const base = `src/dir/data`;
     const walk = async url => {
-        return (async () => {
+        (async () => {
             console.log(url);
+            console.log(2);
             await page.goto(url, {
                 waitUntil: 'domcontentloaded',
                 timeout: 3000000,
             });
+            console.log(1);
             const tags = await page.evaluate(() => {
                 let as = [...document.querySelectorAll('a')].filter(
                     v => whitelist.indexOf(v.text) !== -1,
@@ -45,7 +47,8 @@ const util = require('../util');
 
     const spider = async (url, base) => {
         (async () => {
-            const aTag = walk(url);
+            const aTag = await walk(url);
+            console.log(aTag);
             for (let j = 0; j < aTag.length; j++) {
                 const i = aTag[j];
                 const name = i.text;
@@ -61,9 +64,9 @@ const util = require('../util');
                     }
                     if (type === 'dir') {
                         fs.mkdirSync(fileAddress);
-                        spider(href, fileAddress);
+                        await spider(href, fileAddress);
                     } else {
-                        download(href);
+                        await download(href);
                     }
                     await page.goto(i.href, {
                         waitUntil: 'domcontentloaded',
