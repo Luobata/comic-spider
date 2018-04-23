@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
+const path = require('path');
 const util = require('../util');
 const down = require('download-pure');
 
@@ -7,7 +8,7 @@ const down = require('download-pure');
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     const url = 'http://sun3d.cs.princeton.edu/data/hotel_umd/maryland_hotel3/';
-    const base = `src/dir/data`;
+    const base = path.resolve(__dirname, `data`);
     async function walk(url) {
         console.log('url:' + url);
         await page.goto(url, {
@@ -57,15 +58,16 @@ const down = require('download-pure');
                 fileStat = await util.stat(fileAddress);
                 // 存在跳过
                 if (fileStat && fileStat.isFile()) {
+                    console.log('ignore：' + fileAddress);
                     continue;
                 }
                 if (type === 'dir') {
-                    if (!fileStat.isDirectory()) {
+                    if (!(fileStat && fileStat.isDirectory())) {
                         fs.mkdirSync(fileAddress);
                     }
                     await spider(href, fileAddress);
                 } else {
-                    download(href, path.resolve(__dirname, fileAddress));
+                    download(href, path.resolve(__dirname, base) + '/');
                 }
                 await page.goto(i.href, {
                     waitUntil: 'domcontentloaded',
