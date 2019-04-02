@@ -6,7 +6,7 @@ const util = require('./util');
 (async () => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    await page.goto('http://comic.kukudm.com/comiclist/1694/index.htm', {
+    await page.goto('https://comic.kukudm.com/comiclist/1694/index.htm', {
         waitUntil: 'domcontentloaded',
         timeout: 3000000,
     });
