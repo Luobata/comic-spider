@@ -4,7 +4,9 @@ const fs = require('fs');
 const util = require('./util');
 
 (async () => {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+        ignoreHTTPSErrors: true,
+    });
     const page = await browser.newPage();
     await page.goto('https://comic.kukudm.com/comiclist/1694/index.htm', {
         waitUntil: 'domcontentloaded',
